@@ -1,11 +1,13 @@
+import bcrypt, { genSalt } from "bcrypt"
+
 import user_model from "../../models/user_model.js";
 
 const signup = async (req,res) => {
 try{
-    console.log(req.body)
-    let inputData= req.body
+    
+    let {firstName, lastName, email, password } = req.body
 
-    const checkUser = await user_model.findOne({email:inputData.email})
+    const checkUser = await user_model.findOne({email:email})
     if(checkUser){
         return res.send({
             code :400,
@@ -14,10 +16,14 @@ try{
         })
     }
 
+    const salt = await bcrypt.genSalt(10);
+    let newPassword = await bcrypt.hash(password, salt);
+
+
     const createUser = await user_model.create({
-        name: inputData.firstName + " " + inputData.lastName,
-        email: inputData.email,
-        password: inputData.password
+        name: firstName + " " + lastName,
+        email: email,
+        password: newPassword
     })
 
     return res.send({
@@ -28,7 +34,7 @@ try{
     
 } catch (error) {
     console.log(error)
-    res.send({
+    return res.send({
         code: 500,
         message: "internal server error",
         payload:[]
