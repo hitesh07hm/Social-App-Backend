@@ -3,60 +3,59 @@ import jwt from "jsonwebtoken";
 
 import user_model from "../../models/user_model.js";
 
-let secretKey = "hitesh07hm"
 
-const signin = async (req,res) => {
+const signin = async (req, res) => {
+  try {
+    let secretKey = process.env.secretKey;
+    
+    const { email, password } = req.body;
 
-try{
-   const {email, password} = req.body
-   
-
-   const checkUser = await user_model.findOne({email:email})
-   if (!checkUser){
-    return res.send ({
+    const checkUser = await user_model.findOne({ email: email });
+    if (!checkUser) {
+      return res.send({
         code: 400,
-        message : "user does not exist.",
-        payload :[]
-    })}
+        message: "user does not exist.",
+        payload: [],
+      });
+    }
 
-    let compare = await bcrypt.compare(password,checkUser.password)
+    let compare = await bcrypt.compare(password, checkUser.password);
 
-    if (!compare){
-        return res.send({
-            code : 400,
-            message : "password is Incorrect",
-            payload : []
-        })
+    if (!compare) {
+      return res.send({
+        code: 400,
+        message: "password is Incorrect",
+        payload: [],
+      });
     }
 
     let info = {
-        email,
-        name : checkUser.name,
-        createdAt : checkUser.createdAt
-    }
+      email,
+      name: checkUser.name,
+      createdAt: checkUser.createdAt,
+    };
 
     let expiry = {
-        expiresIn : "1hr"
-    }
+      expiresIn: "1hr",
+    };
 
-    let token = jwt.sign(info,secretKey,expiry)
+    let token = jwt.sign(info, secretKey, expiry);
 
-    return res.send ({
-        code : 200,
-        message : "login initiated successfully",
-        payload :{
-            token
-        }
-    })
-
-} catch (error) {
-    console.log(error)
     return res.send({
-        code: 500,
-        message: "internal server error",
-        payload:[]
-    })
-}
-}
+      code: 200,
+      message: "login initiated successfully",
+      payload: {
+        token,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.send({
+      code: 500,
+      message: "internal server error",
+      payload: [],
+    });
+  }
+};
 
 export default signin;

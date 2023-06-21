@@ -2,24 +2,19 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const postSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
+  postTitle: {
     type: String,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  postDescription: {
+    type: String,
+    required: true,
   },
 });
 
-export default mongoose.model("user", userSchema);
+export default mongoose.model("post", postSchema);
