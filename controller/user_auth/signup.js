@@ -4,9 +4,9 @@ import user_model from "../../models/user_model.js";
 
 const signup = async (req, res) => {
   try {
-    let { firstName, lastName, email, password } = req.body;
+    let { firstName, lastName, userName, email, password } = req.body;
 
-    const checkUser = await user_model.findOne({ email: email });
+    const checkUser = await user_model.findOne({ email: email, userName: userName });
     if (checkUser) {
       return res.send({
         code: 400,
@@ -20,6 +20,7 @@ const signup = async (req, res) => {
 
     const createUser = await user_model.create({
       name: firstName + " " + lastName,
+      userName: userName,
       email: email,
       password: newPassword,
     });

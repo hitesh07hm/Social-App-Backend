@@ -31,6 +31,7 @@ const signin = async (req, res) => {
 
     let info = {
       email,
+      userName: checkUser.userName,
       name: checkUser.name,
       createdAt: checkUser.createdAt,
     };

@@ -6,7 +6,7 @@ const profileInfo = async (req, res) => {
     const { email } = req.user;
     const userInfo = await user_model
       .findOne({ email: email })
-      .select({ email: 1, name: 1, createdAt: 1, _id: 0 });
+      .select({ email: 1, userName: 1, name: 1, createdAt: 1, _id: 0 });
 
     return res.send({
       code: 200,
