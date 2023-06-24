@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-  userName: {
+  userId: {
     type: String,
     required: true,
   },
@@ -14,6 +14,10 @@ const postSchema = new Schema({
   postDescription: {
     type: String,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

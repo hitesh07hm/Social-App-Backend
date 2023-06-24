@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { nanoid } from "nanoid";
 
 const Schema = mongoose.Schema;
 
@@ -7,10 +8,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  userName:{
+  userId:{
     type: String,
     unique: true,
-    required: true,
   },
   email: {
     type: String,
@@ -26,5 +26,10 @@ const userSchema = new Schema({
     default: Date.now,
   },
 });
+
+userSchema.pre("save", function(next) {
+  this.userId = nanoid(12);
+  next();
+})
 
 export default mongoose.model("user", userSchema);

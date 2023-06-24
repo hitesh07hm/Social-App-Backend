@@ -2,10 +2,11 @@ import post_model from "../../models/post_model.js";
 
 const createPost = async (req, res) => {
   try {
-    let { userName, postTitle, postDescription } = req.body;
+    let { postTitle, postDescription } = req.body;
+    let { userId } = req.user;
 
-    const createUserPost = await post_model.create({
-      userName: userName,
+    await post_model.create({
+      userId: userId,
       postTitle: postTitle,
       postDescription: postDescription,
     });
@@ -13,7 +14,7 @@ const createPost = async (req, res) => {
     return res.send({
       code: 200,
       message: "new Post created successfully ",
-      payload: createUserPost,
+      payload: [],
     });
   } catch (error) {
     console.log(error);
