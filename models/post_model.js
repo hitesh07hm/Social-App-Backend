@@ -15,6 +15,12 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
+  likes: [
+    {
+      type: String,
+      default: [],
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
