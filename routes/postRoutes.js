@@ -13,6 +13,7 @@ import addComment from "../controller/user_post/addComments.js";
 import viewComments from "../controller/user_post/viewComments.js";
 
 import { likeAPost } from "../controller/user_post/likeAPost.js";
+import { dislikeAPost } from "../controller/user_post/dislikeAPost.js";
 
 router.post("/create-post", verifyJWTToken, createPost);
 router.get("/fetch-all-post", verifyJWTToken, fetchAllPost);
@@ -23,5 +24,6 @@ router.post("/add-comment", verifyJWTToken, addComment)
 router.get("/view-comments", verifyJWTToken, viewComments)
 
 router.post("/like-a-post", verifyJWTToken, likeAPost)
+router.post("/dislike-a-post", verifyJWTToken, dislikeAPost)
 
 export default router;
