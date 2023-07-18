@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+const likesSchema = new Schema({
+  userId : {
+    type : String,
+    required : true,
+    unique : true
+  }
+},{_id : false});
+
 const postSchema = new Schema({
   userId: {
     type: String,
@@ -15,12 +23,12 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  likes: [
-    {
-      type: String,
-      default: [],
+  likes: {
+      type: [likesSchema]
     },
-  ],
+  dislikes: {
+      type: [likesSchema]
+    },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -1,10 +1,33 @@
 import bcrypt, { genSalt } from "bcrypt";
+import Joi from "joi";
 
 import user_model from "../../models/user_model.js";
 
 const signup = async (req, res) => {
   try {
     let { firstName, lastName, email, password } = req.body;
+	
+	const schema = Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    });
+
+    const { error } = schema.validate({ email , password });
+    if (error) {
+      return res.send({
+        code: 400,
+        message: "Invalid email/password",
+        payload: {},
+      });
+    }
+
+    // if (!/\S+@\S+\.\S+/.test(email)) {
+    //   return res.send({
+    //     code: 400,
+    //     message: "Invalid email format",
+    //     payload: {},
+    //   });
+    // }
 
     const checkUser = await user_model.findOne({ email: email });
     if (checkUser) {

@@ -21,7 +21,7 @@ mongoose
     console.log("connected to mongoose");
   })
   .catch((error) => {
-    console.log("failed while connecting mango", error);
+    console.log("failed while connecting mongo", error);
   });
 
 app.use("/user", userRoutes);
